@@ -41,7 +41,19 @@ const server = app.listen(PORT, () => {
 
 //===Error Handling
 
+
+// @desc Handle unhandled routes and send error into Error handling middleware.
 app.all('*', (req, res, next) => {
   // Create error and send it to error handling midleware.
   next(new ApiError(`Cant find this rout ${req.originalUrl}`, 400));
+});
+
+
+// @desc  Handle errors outside express unhandle rejections.
+process.on('unhandledRejection', (err) => {
+  console.error(`unhandledRejection : ${err.name} | ${err.message} `);
+  server.close(() => {
+    console.error('Shutting down .....');
+    process.exit(1); //to stop app.
+  });
 });
