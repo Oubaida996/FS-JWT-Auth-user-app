@@ -8,10 +8,12 @@ const userSchema = mongoose.Schema(
       trim: true,
       required: [true, 'Name of user is required'],
     },
+
     slug: {
       type: String,
       lowercase: true,
     },
+
     email: {
       unique: true,
       type: String,
@@ -19,13 +21,17 @@ const userSchema = mongoose.Schema(
       required: [true, 'Email of user is required'],
       lowercase: true,
     },
-    phone: String,
-    profileImg: 'string',
+
     password: {
       type: String,
       required: [true, 'Email of user is required'],
       minlingth: [8, 'To short password'],
     },
+
+    phone: String,
+
+    profileImg: 'string',
+
     role: {
       type: String,
       enum: ['user', 'admin'],
@@ -37,6 +43,6 @@ const userSchema = mongoose.Schema(
 
 //2-export model
 
-const User =mongoose.model('User' ,userSchema);
+const User = mongoose.model('User', userSchema);
 
-module.exports =User;
+module.exports = User;
