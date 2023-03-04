@@ -5,7 +5,7 @@ const { default: slugify } = require('slugify');
 const validatorMiddleware = require('../../middleware/validatorMiddleware');
 const User = require('../../models/userModel');
 
-exports.getSpecificuserValidator = [
+exports.getSpecificUserValidator = [
   //1-Rules
   check('id').isMongoId().withMessage('Invalid user id format'),
   // 2- Middleware => catch errors form rules if exist
@@ -58,7 +58,7 @@ exports.createUserValidator = [
   validatorMiddleware,
 ];
 
-exports.updateuserValidator = [
+exports.updateUserValidator = [
   //1-Rules
   check('id').isMongoId().withMessage('Invalid user id format'),
   check('name')
@@ -72,7 +72,7 @@ exports.updateuserValidator = [
   validatorMiddleware,
 ];
 
-exports.deleteuserValidator = [
+exports.deleteUserValidator = [
   //1-Rules
   check('id').isMongoId().withMessage('Invalid user id format'),
   // 2- Middleware => catch errors form rules if exist
