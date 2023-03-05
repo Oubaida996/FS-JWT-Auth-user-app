@@ -4,7 +4,7 @@ const UserModel = require('../models/userModel');
 const slugify = require('slugify');
 const asyncHandler = require('express-async-handler');
 const ApiError = require('../utils/ApiError');
-
+const bcrybt = require('bcryptjs');
 // @desc    Get a list of Users
 // @route   GET /api/v1/users?page=<number>&limit=<number>
 // @query   page : integer  , limit : integer
@@ -56,9 +56,20 @@ exports.createUser = asyncHandler(async (req, res) => {
 exports.updateUser = asyncHandler(async (req, res, next) => {
   const { name } = req.body;
   const { id } = req.params;
-  const user = await UserModel.findOneAndUpdate({ _id: id }, req.body, {
-    new: true,
-  });
+  const user = await UserModel.findOneAndUpdate(
+    { _id: id },
+    {
+      name,
+      slug: slugify(name),
+      email: req.body.email,
+      phone: req.body.phone,
+      role: req.body.role,
+      profileImg: req.body.profileImg,
+    },
+    {
+      new: true,
+    }
+  );
   if (!user) return next(new ApiError(`The user isn't exist`, 404));
   res.status(200).json({ data: user });
 });
@@ -78,4 +89,19 @@ exports.deleteUser = asyncHandler(async (req, res, next) => {
   if (!user) return next(new ApiError("The user isn't exist", 404));
 
   res.status(200).json({ active: user.active });
+});
+
+exports.changePassword = asyncHandler(async (req, res, next) => {
+  const { id } = req.params;
+
+  const user = await UserModel.findOneAndUpdate(
+    { _id: id },
+    {
+      password: await bcrybt.hash(req.body.newPwd, 12),
+    },
+    { new: true }
+  );
+  if (!user) return next(new ApiError("The user isn't exist", 404));
+  res.status(200).json({ data: user });
+  
 });

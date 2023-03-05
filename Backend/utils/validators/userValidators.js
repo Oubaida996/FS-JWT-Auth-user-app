@@ -4,7 +4,7 @@ const { check, body, param } = require('express-validator');
 const validatorMiddleware = require('../../middleware/validatorMiddleware');
 const slugify = require('slugify');
 const User = require('../../models/userModel');
-
+const bcrybt = require('bcryptjs');
 exports.createUserValidator = [
   //1-Rules
 
@@ -38,7 +38,7 @@ exports.createUserValidator = [
     .withMessage('Password is required')
     .isLength({ min: 8 })
     .withMessage('Password must be at least 8 characters')
-    .custom((pwd, {req}) => {
+    .custom((pwd, { req }) => {
       if (pwd !== req.body.pwdConfirm) {
         throw new Error('Password confirm incorrect');
       }
@@ -113,6 +113,41 @@ exports.updateUserValidator = [
 exports.deleteUserValidator = [
   //1-Rules
   check('id').isMongoId().withMessage('Invalid user id format'),
+  // 2- Middleware => catch errors form rules if exist
+  validatorMiddleware,
+];
+
+exports.updateUserPasswordValidator = [
+  // 1-Rules
+  param('id').isMongoId().withMessage('Invalid user id format'),
+
+  body('currentPwd')
+    .notEmpty()
+    .withMessage('Current password is required')
+    .custom(async (currentPwd, { req }) => {
+      const user = await User.findById(req.params.id);
+
+      if (!user) throw new Error('There is no user for this id');
+
+      const isCorrectPwd = await bcrybt.compare(currentPwd, user.password);
+
+      if (!isCorrectPwd) throw new Error('The current password is incorrect');
+    }),
+    
+  body('newPwd')
+    .notEmpty()
+    .withMessage('Password is required')
+    .isLength({ min: 8 })
+    .withMessage('Password must be at least 8 characters')
+    .custom((newPwd, { req }) => {
+      if (newPwd !== req.body.pwdConfirm) {
+        throw new Error('Password confirm incorrect');
+      }
+      return true;
+    }),
+
+  body('pwdConfirm').notEmpty().withMessage('Password confirm is required'),
+
   // 2- Middleware => catch errors form rules if exist
   validatorMiddleware,
 ];
