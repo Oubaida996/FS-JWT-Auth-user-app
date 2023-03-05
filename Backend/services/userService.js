@@ -3,7 +3,7 @@
 const UserModel = require('../models/userModel');
 const slugify = require('slugify');
 const asyncHandler = require('express-async-handler');
-const ApiError = require('../utils/ApiErorr');
+const ApiError = require('../utils/ApiError');
 
 // @desc    Get a list of Users
 // @route   GET /api/v1/users?page=<number>&limit=<number>
