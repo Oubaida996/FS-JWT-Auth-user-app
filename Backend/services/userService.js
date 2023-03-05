@@ -56,13 +56,9 @@ exports.createUser = asyncHandler(async (req, res) => {
 exports.updateUser = asyncHandler(async (req, res, next) => {
   const { name } = req.body;
   const { id } = req.params;
-  const user = await UserModel.findOneAndUpdate(
-    { _id: id },
-    { name, slug: slugify(name) },
-    {
-      new: true,
-    }
-  );
+  const user = await UserModel.findOneAndUpdate({ _id: id }, req.body, {
+    new: true,
+  });
   if (!user) return next(new ApiError(`The user isn't exist`, 404));
   res.status(200).json({ data: user });
 });
@@ -81,5 +77,5 @@ exports.deleteUser = asyncHandler(async (req, res, next) => {
   );
   if (!user) return next(new ApiError("The user isn't exist", 404));
 
-  res.status(204).send();
+  res.status(200).json({ active: user.active });
 });

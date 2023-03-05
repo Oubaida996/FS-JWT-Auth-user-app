@@ -84,8 +84,8 @@ exports.updateUserValidator = [
     .withMessage('Invalid email adress')
     .custom((val) =>
       User.findOne({ email: val }).then((user) => {
-        if (user) {
-          return Promise.reject(new Error('Email already exist'));
+        if (!user) {
+          return Promise.reject(new Error('Your email is not exist'));
         }
       })
     ),
