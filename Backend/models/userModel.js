@@ -1,5 +1,7 @@
 'use strict';
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
+
 //1- Create Shema
 const userSchema = mongoose.Schema(
   {
@@ -45,6 +47,13 @@ const userSchema = mongoose.Schema(
   },
   { timestamps: true }
 );
+
+userSchema.pre('save', async function (next) {
+  if (!this.password.isModified('password')) return next();
+  //Hashing user password
+  this.password = await bcrypt.hash(this.password, 12);
+  next();
+});
 
 //2-export model
 
