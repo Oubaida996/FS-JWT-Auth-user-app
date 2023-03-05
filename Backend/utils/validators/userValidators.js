@@ -37,7 +37,15 @@ exports.createUserValidator = [
     .notEmpty()
     .withMessage('Password is required')
     .isLength({ min: 8 })
-    .withMessage('Password must be at least 8 characters'),
+    .withMessage('Password must be at least 8 characters')
+    .custom((pwd, {req}) => {
+      if (pwd !== req.body.pwdConfirm) {
+        throw new Error('Password confirm incorrect');
+      }
+      return true;
+    }),
+
+  body('pwdConfirm').notEmpty().withMessage('Password confirm is required'),
 
   body('phone')
     .optional()
