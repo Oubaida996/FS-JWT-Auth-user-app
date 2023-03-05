@@ -72,8 +72,9 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
 // @access  Private
 exports.deleteUser = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
-  const user = await UserModel.findOneAndDelete(
+  const user = await UserModel.findOneAndUpdate(
     { _id: id },
+    { active: false },
     {
       new: true,
     }
