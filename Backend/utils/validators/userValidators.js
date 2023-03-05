@@ -1,6 +1,6 @@
 'use strict';
 //check means any type {param ,body ,...}
-const { check, body } = require('express-validator');
+const { check, body, param } = require('express-validator');
 const validatorMiddleware = require('../../middleware/validatorMiddleware');
 const slugify = require('slugify');
 const User = require('../../models/userModel');
@@ -64,6 +64,7 @@ exports.getSpecificUserValidator = [
 
 exports.updateUserValidator = [
   //1-Rules
+  param('id').isMongoId().withMessage('Invalid user id format'),
 
   body('name')
     .notEmpty()
@@ -77,18 +78,7 @@ exports.updateUserValidator = [
       return true;
     }),
 
-  body('email')
-    .notEmpty()
-    .withMessage('Email is required')
-    .isEmail()
-    .withMessage('Invalid email adress')
-    .custom((val) =>
-      User.findOne({ email: val }).then((user) => {
-        if (!user) {
-          return Promise.reject(new Error('Your email is not exist'));
-        }
-      })
-    ),
+  body('email').isEmpty().withMessage('Email is not required'),
 
   body('password')
     .notEmpty()
