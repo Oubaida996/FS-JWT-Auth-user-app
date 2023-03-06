@@ -36,10 +36,12 @@ const userSchema = mongoose.Schema(
 
     role: {
       type: String,
-      enum: ['user', 'admin'],
+      enum: ['admin', 'writer', 'editor', 'user'],
       default: 'user',
     },
-
+    actions: {
+      type: Array,
+    },
     active: {
       type: Boolean,
       default: false,
@@ -52,6 +54,18 @@ userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
   //Hashing user password
   this.password = await bcrypt.hash(this.password, 12);
+  next();
+});
+
+userSchema.pre('save', async function (next) {
+  const acl = {
+    user: ['read'],
+    writer: ['read', 'create'],
+    editor: ['read', 'create', 'update'],
+    admin: ['read', 'create', 'update', 'delete'],
+  };
+  console.log(this.role);
+  this.actions = acl[this.role];
   next();
 });
 

@@ -5,6 +5,7 @@ const slugify = require('slugify');
 const asyncHandler = require('express-async-handler');
 const ApiError = require('../utils/ApiError');
 const bcrybt = require('bcryptjs');
+
 // @desc    Get a list of Users
 // @route   GET /api/v1/users?page=<number>&limit=<number>
 // @query   page : integer  , limit : integer
@@ -47,6 +48,9 @@ exports.createUser = asyncHandler(async (req, res) => {
     role,
     profileImg,
   });
+  if (!user)
+    next(new ApiError(`You cann't create a user now, try later `, 503));
+
   res.status(201).json({ data: user });
 });
 
@@ -103,5 +107,4 @@ exports.changePassword = asyncHandler(async (req, res, next) => {
   );
   if (!user) return next(new ApiError("The user isn't exist", 404));
   res.status(200).json({ data: user });
-  
 });
