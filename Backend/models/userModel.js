@@ -1,5 +1,7 @@
 'use strict';
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
+
 //1- Create Shema
 const userSchema = mongoose.Schema(
   {
@@ -34,10 +36,12 @@ const userSchema = mongoose.Schema(
 
     role: {
       type: String,
-      enum: ['user', 'admin'],
+      enum: ['admin', 'writer', 'editor', 'user'],
       default: 'user',
     },
-
+    actions: {
+      type: Array,
+    },
     active: {
       type: Boolean,
       default: false,
@@ -45,6 +49,25 @@ const userSchema = mongoose.Schema(
   },
   { timestamps: true }
 );
+
+userSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) return next();
+  //Hashing user password
+  this.password = await bcrypt.hash(this.password, 12);
+  next();
+});
+
+userSchema.pre('save', async function (next) {
+  const acl = {
+    user: ['read'],
+    writer: ['read', 'create'],
+    editor: ['read', 'create', 'update'],
+    admin: ['read', 'create', 'update', 'delete'],
+  };
+  console.log(this.role);
+  this.actions = acl[this.role];
+  next();
+});
 
 //2-export model
 

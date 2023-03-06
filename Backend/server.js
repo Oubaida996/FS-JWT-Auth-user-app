@@ -3,9 +3,9 @@ const express = require('express');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
 
-
 //==== Routes
 const userRoutes = require('./routes/userRoutes');
+const authRoutes = require('./routes/authRoutes');
 
 //===== DB
 const dbConnection = require('./config/database');
@@ -33,6 +33,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/auth', authRoutes);
 
 // ==== Connection with server
 const PORT = process.env.PORT || 8000;
@@ -44,13 +45,14 @@ const server = app.listen(PORT, () => {
 
 //===Error Handling
 
-app.use(globalErorrHandlingMidleware); // Global error handling middleware, you must use it after mount routs
 
 // @desc Handle unhandled routes and send error into Error handling middleware.
 app.all('*', (req, res, next) => {
-  // Create error and send it to error handling midleware.
+  // Create error and send it to global error handling middleware.
   next(new ApiError(`Cant find this rout ${req.originalUrl}`, 400));
 });
+
+app.use(globalErorrHandlingMidleware); // Global error handling middleware, you must use it after mount routs
 
 // @desc  Handle errors outside express unhandle rejections.
 process.on('unhandledRejection', (err) => {
