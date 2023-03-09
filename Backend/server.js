@@ -45,7 +45,6 @@ const server = app.listen(PORT, () => {
 
 //===Error Handling
 
-
 // @desc Handle unhandled routes and send error into Error handling middleware.
 app.all('*', (req, res, next) => {
   // Create error and send it to global error handling middleware.

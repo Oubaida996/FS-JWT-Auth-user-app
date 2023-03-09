@@ -1,6 +1,7 @@
 'use strict';
 
 const express = require('express');
+const aclAuth = require('../middleware/auth/aclAuth');
 const bearerAuth = require('../middleware/auth/bearerAuth');
 
 const {
@@ -24,7 +25,10 @@ const router = express.Router();
 
 router.put('/change-password/:id', updateUserPasswordValidator, changePassword);
 
-router.route('/').get(getUsers).post(createUserValidator, createUser);
+router
+  .route('/')
+  .get(getUsers)
+  .post(createUserValidator, bearerAuth, aclAuth('delete'), createUser);
 
 router
   .route('/:id')

@@ -133,7 +133,7 @@ exports.updateUserPasswordValidator = [
 
       if (!isCorrectPwd) throw new Error('The current password is incorrect');
     }),
-    
+
   body('newPwd')
     .notEmpty()
     .withMessage('Password is required')
