@@ -50,6 +50,7 @@ const userSchema = mongoose.Schema(
   { timestamps: true }
 );
 
+//Before save the new field, verify if the password updated or not then hash it.
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
   //Hashing user password
@@ -57,6 +58,7 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
+//Before save the new field, add the access control list for user
 userSchema.pre('save', async function (next) {
   const acl = {
     user: ['read'],

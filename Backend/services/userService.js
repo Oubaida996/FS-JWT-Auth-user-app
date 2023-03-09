@@ -95,6 +95,9 @@ exports.deleteUser = asyncHandler(async (req, res, next) => {
   res.status(200).json({ active: user.active });
 });
 
+// @desc    Change the passwor for user
+// @route   Update /api/v1/users/change-password/:id
+// @access  Public
 exports.changePassword = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
 
