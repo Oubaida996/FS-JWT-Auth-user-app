@@ -27,6 +27,30 @@ function Register() {
   const [errMsg, setErrMsg] = useState('');
   const [success, setSuccess] = useState(false);
 
+  useEffect(() => {
+    userRef.current.focus();
+  }, []);
+
+  useEffect(() => {
+    const result = USER_REGEX.test(user);
+    console.log(user);
+    console.log(result);
+    setValidName(result);
+  }, [user]);
+
+  useEffect(() => {
+    const result = PWD_REGEX.test(pwd);
+    console.log(pwd);
+    console.log(result);
+    setValidPwd(result);
+    const match = pwd === matchPwd;
+    setValidMatch(match);
+  }, [pwd, matchPwd]);
+
+  useEffect(() => {
+    setErrMsg('');
+  }, [user, pwd, matchPwd]);
+
   return (
     <div className='jwt__register flex flex-col   w-full h-full translate-y-[-32%] transition ease-in-out duration-500  peer-checked/chk:-translate-y-[85%] '>
       <form className='jwt__register-form  bg-white shadow-md rounded rounded-t-3xl px-8 pt-6 pb-8 mb-4 '>
