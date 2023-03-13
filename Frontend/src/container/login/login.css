@@ -1,0 +1,4 @@
+#chk:checked ~ .jwt__login label {
+  
+  transform: scale(0.5) translateY(-20px);
+}

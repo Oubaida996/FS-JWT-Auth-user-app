@@ -1,10 +1,10 @@
 import React from 'react';
-import Register from './components/register/Register';
+import Main from './container/main/Main';
 
 function App() {
   return (
-    <div>
-      <Register />
+    <div className='jwt__app  h-screen w-screen flex justify-center  items-center'>
+    <Main/>
     </div>
   );
 }
