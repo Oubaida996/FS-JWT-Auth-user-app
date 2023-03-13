@@ -3,11 +3,11 @@ import React from 'react';
 export default function Input({ forHtml, label, placeholder }) {
   return (
     <div className='jwt__input mb-4'>
-      <label
+      {/* <label
         htmlFor={forHtml}
         className='block text-gray-700 text-sm font-bold mb-2'>
         {label}
-      </label>
+      </label> */}
       <input
         type='text'
         placeholder={placeholder}
