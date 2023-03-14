@@ -107,7 +107,9 @@ function Register() {
           warning={`Must match with password`}
         />
         <div>
-          <button className='bg-blue-500 w-1/2 text-zinc-100 font-bold text-lg px-3 py-2 rounded hover:bg-blue-600'>
+          <button
+            disabled={!validEmail || !validPwd || !validMatch ? true : false}
+            className='bg-blue-700 disabled:opacity-75 enabled:hover:bg-blue-600  w-1/2 text-zinc-100 font-bold text-lg px-3 py-2 rounded '>
             Sign up
           </button>
         </div>
