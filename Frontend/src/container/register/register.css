@@ -1,3 +1,8 @@
+#chk:checked ~ .jwt__register{
+  padding: 1rem;
+  
+  transition:padding 0.5s 0 ease-in-out;
+}
 #chk:checked ~ .jwt__register label {
   transform: scale(1);
 }
