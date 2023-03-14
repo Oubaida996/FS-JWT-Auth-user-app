@@ -28,7 +28,7 @@ function Register() {
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    userRef.current.focus();
+    // userRef.current.focus();
   }, []);
 
   useEffect(() => {
@@ -52,13 +52,19 @@ function Register() {
   }, [user, pwd, matchPwd]);
 
   return (
-    <div className='jwt__register flex flex-col   w-full h-full translate-y-[-32%] transition ease-in-out duration-500  peer-checked/chk:-translate-y-[85%] '>
-      <form className='jwt__register-form  bg-white shadow-md rounded rounded-t-3xl px-8 pt-6 pb-8 mb-4 '>
-        <label
-          for='chk'
-          className='block mb-8 text-center font-bold text-blue-400 text-4xl duration-500 scale-50 '>
-          Register
-        </label>
+    <div className='jwt__register flex flex-col bg-white rounded rounded-t-3xl  w-full h-full translate-y-[-30%] transition ease-in-out duration-500  peer-checked/chk:-translate-y-[90%] '>
+      <p
+        ref={errRef}
+        className={errMsg ? 'errmsg' : 'offscreen'}
+        aria-live='assertive'>
+        {errMsg}
+      </p>
+      <label
+        htmlFor='chk'
+        className='block mb-8 mt-4 text-center font-bold text-blue-400 text-4xl duration-500 scale-50 '>
+        Register
+      </label>
+      <form className='jwt__register-form    px-8 pt-6 pb-8 mb-4 '>
         <Input forHtml='email' label='Email' placeholder='Email' />
         <Input forHtml='pwd' label='Password' placeholder='Password' />
         <Input
