@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faCheck,
+  // faCheck,
+  // faTimes,
   faInfoCircle,
-  faTimes,
 } from '@fortawesome/free-solid-svg-icons';
 export default function Input({
   htmlFor,
@@ -21,6 +21,7 @@ export default function Input({
 }) {
   const [stateOfBorder, setStateOfBorder] = useState('');
   useEffect(() => {
+    console.table({valid,value});
     if (!valid && !value) {
       setStateOfBorder('');
     }else if (valid && value) {

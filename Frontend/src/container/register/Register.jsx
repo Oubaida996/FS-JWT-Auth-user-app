@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Input from '../../components/Input';
 import './register.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCoffee, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 
 //=====Validate Input
 //It can Contain a-z , A-Z characters and 0-9 numbers, you can add hyphone and under score
@@ -54,7 +52,7 @@ function Register() {
   }, [email, pwd, matchPwd]);
 
   return (
-    <div className='jwt__register h-full w-full flex flex-col bg-slate-50 rounded rounded-t-3xl  absolute top-0 left-0 bottom-0 translate-y-[89%] transition ease-in-out duration-500  peer-checked/chk:translate-y-[0%] peer-checked/chk:rounded '>
+    <div className='jwt__register  w-full flex flex-col bg-slate-50 rounded rounded-t-3xl  absolute top-0 left-0 bottom-0 translate-y-[89%] transition ease-in-out duration-500  peer-checked/chk:translate-y-[0%] peer-checked/chk:rounded '>
       <p
         ref={errRef}
         className={errMsg ? 'errmsg' : 'offscreen'}
@@ -63,7 +61,7 @@ function Register() {
       </p>
       <label
         htmlFor='chk'
-        className='block  text-center font-bold text-blue-400 text-4xl duration-500 scale-50 '>
+        className='block mb-4 text-center font-bold text-blue-400 text-4xl duration-500 scale-50 '>
         Register
       </label>
       <form className='jwt__register-form  px-8 pt-6 pb-2 mb-4 '>
@@ -93,7 +91,7 @@ function Register() {
           note='pwdNote'
           onFocusFun={() => setPwdFocus(true)}
           onBlurFun={() => setPwdFocus(false)}
-          warning={` 8 to 24 characters. Must include uppercase and lowercase letters, a numbers and special character.`}
+          warning={` 8 to 24 characters. Must include uppercase and lowercase letters, a numbers and special character :!@#$%`}
         />
         <Input
           htmlFor='confirmPwd'
@@ -101,8 +99,12 @@ function Register() {
           placeholder='Confirm password'
           id={'matchPwd'}
           onChangeFun={(e) => setMatchPwd(e.target.value)}
+          valid={validMatch && matchPwd}
+          value={matchPwd}
+          note='confirmNote'
           onFocusFun={() => setMatchFocus(true)}
           onBlurFun={() => setMatchFocus(false)}
+          warning={`Must match with password`}
         />
         <div>
           <button className='bg-blue-500 w-1/2 text-zinc-100 font-bold text-lg px-3 py-2 rounded hover:bg-blue-600'>
