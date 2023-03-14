@@ -1,18 +1,68 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faCheck,
+  faInfoCircle,
+  faTimes,
+} from '@fortawesome/free-solid-svg-icons';
+export default function Input({
+  htmlFor,
+  label,
+  placeholder,
+  id,
+  refTo,
+  onChangeFun,
+  valid,
+  value,
+  onFocusFun,
+  onBlurFun,
+  warning,
+}) {
+  const [stateOfBorder, setStateOfBorder] = useState('');
+  useEffect(() => {
+    if (!valid && !value) {
+      setStateOfBorder('');
+    }else if (valid && value) {
+      setStateOfBorder('border-green-500');
+    }else{
+      setStateOfBorder('border-red-500');
+    }
+  }, [valid, value]);
 
-export default function Input({ forHtml, label, placeholder }) {
   return (
     <div className='jwt__input mb-4'>
       {/* <label
-        htmlFor={forHtml}
+        htmlFor={htmlFor}
         className='block text-gray-700 text-sm font-bold mb-2'>
         {label}
       </label> */}
+      {/* <span className={valid ? 'valid' : 'hide'}>
+        <FontAwesomeIcon icon={faCheck} />
+      </span>
+      <span className={valid || !value ? 'hide' : 'invalid'}>
+        <FontAwesomeIcon icon={faTimes} />
+      </span> */}
       <input
         type='text'
         placeholder={placeholder}
-        className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none  focus:shadow-outline'
+        className={` shadow  appearance-none border ${stateOfBorder} rounded  py-2 px-3 mb-1 text-gray-700 leading-tight focus:outline-none `}
+        id={id}
+        ref={refTo}
+        autoComplete='off'
+        onChange={onChangeFun}
+        required
+        aria-invalid={valid ? 'false' : 'true'}
+        aria-describedby='uidonte'
+        onFocus={onFocusFun}
+        onBlur={onBlurFun}
       />
+
+      <p
+        id='uidonte'
+        className={value && !valid ? 'instructions' : 'offscreen'}>
+        <FontAwesomeIcon icon={faInfoCircle} />
+        {warning}
+      </p>
     </div>
   );
 }

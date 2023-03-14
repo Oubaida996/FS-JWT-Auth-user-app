@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Input from '../../components/Input';
 import './register.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCoffee, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 
 //=====Validate Input
 //It can Contain a-z , A-Z characters and 0-9 numbers, you can add hyphone and under score
@@ -9,12 +11,12 @@ const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
 function Register() {
-  const userRef = useRef();
+  const emailRef = useRef();
   const errRef = useRef();
 
-  const [user, setUser] = useState('');
-  const [validName, setValidName] = useState(false);
-  const [userFocus, setUserFocus] = useState(false);
+  const [email, setEmail] = useState('');
+  const [validEmail, setValidEmail] = useState(false);
+  const [emailFocus, setEmailFocus] = useState(false);
 
   const [pwd, setPwd] = useState('');
   const [validPwd, setValidPwd] = useState(false);
@@ -28,15 +30,15 @@ function Register() {
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    // userRef.current.focus();
+    // emailRef.current.focus();
   }, []);
 
   useEffect(() => {
-    const result = USER_REGEX.test(user);
-    console.log(user);
+    const result = USER_REGEX.test(email);
+    console.log(email);
     console.log(result);
-    setValidName(result);
-  }, [user]);
+    setValidEmail(result);
+  }, [email]);
 
   useEffect(() => {
     const result = PWD_REGEX.test(pwd);
@@ -49,10 +51,10 @@ function Register() {
 
   useEffect(() => {
     setErrMsg('');
-  }, [user, pwd, matchPwd]);
+  }, [email, pwd, matchPwd]);
 
   return (
-    <div className='jwt__register flex flex-col bg-white rounded rounded-t-3xl  w-full h-full translate-y-[-30%] transition ease-in-out duration-500  peer-checked/chk:-translate-y-[90%] '>
+    <div className='jwt__register h-full w-full flex flex-col bg-slate-50 rounded rounded-t-3xl  absolute top-0 left-0 bottom-0 translate-y-[89%] transition ease-in-out duration-500  peer-checked/chk:translate-y-[0%] peer-checked/chk:rounded '>
       <p
         ref={errRef}
         className={errMsg ? 'errmsg' : 'offscreen'}
@@ -61,18 +63,42 @@ function Register() {
       </p>
       <label
         htmlFor='chk'
-        className='block mb-8 mt-4 text-center font-bold text-blue-400 text-4xl duration-500 scale-50 '>
+        className='block  text-center font-bold text-blue-400 text-4xl duration-500 scale-50 '>
         Register
       </label>
-      <form className='jwt__register-form    px-8 pt-6 pb-8 mb-4 '>
-        <Input forHtml='email' label='Email' placeholder='Email' />
-        <Input forHtml='pwd' label='Password' placeholder='Password' />
+      <form className='jwt__register-form  px-8 pt-6 pb-2 mb-4 '>
         <Input
-          forHtml='confirmPwd'
-          label='Confirm password'
-          placeholder='Confirm password'
+          htmlFor='email'
+          label='Email'
+          placeholder='Email'
+          id={'email'}
+          refTo={emailRef}
+          onChangeFun={(e) => setEmail(e.target.value)}
+          valid={validEmail}
+          value={email}
+          onFocusFun={() => setEmailFocus(true)}
+          onBlurFun={() => setEmailFocus(false)}
+          warning={` 4 to 24 characters. Must begin with a letter. Letters, numbers, underscores, hyphens allowed.`}
         />
 
+        <Input
+          htmlFor='pwd'
+          label='Password'
+          placeholder='Password'
+          id={'pwd'}
+          onChangeFun={(e) => setPwd(e.target.value)}
+          onFocusFun={() => setPwdFocus(true)}
+          onBlurFun={() => setPwdFocus(false)}
+        />
+        <Input
+          htmlFor='confirmPwd'
+          label='Confirm password'
+          placeholder='Confirm password'
+          id={'matchPwd'}
+          onChangeFun={(e) => setMatchPwd(e.target.value)}
+          onFocusFun={() => setMatchFocus(true)}
+          onBlurFun={() => setMatchFocus(false)}
+        />
         <div>
           <button className='bg-blue-500 w-1/2 text-zinc-100 font-bold text-lg px-3 py-2 rounded hover:bg-blue-600'>
             Sign up
