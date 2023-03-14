@@ -14,6 +14,7 @@ export default function Input({
   onChangeFun,
   valid,
   value,
+  note,
   onFocusFun,
   onBlurFun,
   warning,
@@ -52,13 +53,13 @@ export default function Input({
         onChange={onChangeFun}
         required
         aria-invalid={valid ? 'false' : 'true'}
-        aria-describedby='uidonte'
+        aria-describedby={note}
         onFocus={onFocusFun}
         onBlur={onBlurFun}
       />
 
       <p
-        id='uidonte'
+        id={note}
         className={value && !valid ? 'instructions' : 'offscreen'}>
         <FontAwesomeIcon icon={faInfoCircle} />
         {warning}

@@ -76,6 +76,7 @@ function Register() {
           onChangeFun={(e) => setEmail(e.target.value)}
           valid={validEmail}
           value={email}
+          note='emaiNote'
           onFocusFun={() => setEmailFocus(true)}
           onBlurFun={() => setEmailFocus(false)}
           warning={` 4 to 24 characters. Must begin with a letter. Letters, numbers, underscores, hyphens allowed.`}
@@ -87,8 +88,12 @@ function Register() {
           placeholder='Password'
           id={'pwd'}
           onChangeFun={(e) => setPwd(e.target.value)}
+          valid={validPwd}
+          value={pwd}
+          note='pwdNote'
           onFocusFun={() => setPwdFocus(true)}
           onBlurFun={() => setPwdFocus(false)}
+          warning={` 8 to 24 characters. Must include uppercase and lowercase letters, a numbers and special character.`}
         />
         <Input
           htmlFor='confirmPwd'
