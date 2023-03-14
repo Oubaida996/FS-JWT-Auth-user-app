@@ -15,18 +15,19 @@ export default function Input({
   valid,
   value,
   note,
+  focusField,
   onFocusFun,
   onBlurFun,
   warning,
 }) {
   const [stateOfBorder, setStateOfBorder] = useState('');
   useEffect(() => {
-    console.table({valid,value});
+    console.table({ valid, value });
     if (!valid && !value) {
       setStateOfBorder('');
-    }else if (valid && value) {
+    } else if (valid && value) {
       setStateOfBorder('border-green-500');
-    }else{
+    } else {
       setStateOfBorder('border-red-500');
     }
   }, [valid, value]);
@@ -61,7 +62,9 @@ export default function Input({
 
       <p
         id={note}
-        className={value && !valid ? 'instructions' : 'offscreen'}>
+        className={
+          value && focusField && !valid ? 'instructions' : 'offscreen'
+        }>
         <FontAwesomeIcon icon={faInfoCircle} />
         {warning}
       </p>
