@@ -2,7 +2,7 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
-
+const cors = require('cors');
 //==== Routes
 const userRoutes = require('./routes/userRoutes');
 const authRoutes = require('./routes/authRoutes');
@@ -26,6 +26,20 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('tiny'));
   console.log(` Mode : ${process.env.NODE_ENV} `);
 }
+
+//===== CORS
+const whitelist = ['http://localhost:3001'];
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+};
+app.use(cors(corsOptions));
 
 // Mount routes
 app.get('/', (req, res) => {
