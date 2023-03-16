@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Input from '../../components/Input';
 import './register.css';
-
+import axios from '../../api/axios';
 //=====Validate Input
 //It can Contain a-z , A-Z characters and 0-9 numbers, you can add hyphone and under score
 const EMAIL_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
@@ -58,7 +58,7 @@ function Register() {
     }, 3000);
   }, [success]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     //if button enabled with JS hack
     const v1 = EMAIL_REGEX.test(email);
@@ -67,6 +67,8 @@ function Register() {
       setErrMsg('Invalid Entry');
       return;
     }
+
+
     setSuccess(true);
   };
 
