@@ -4,7 +4,7 @@ import './register.css';
 import axios from '../../api/axios';
 //=====Validate Input
 //It can Contain a-z , A-Z characters and 0-9 numbers, you can add hyphone and under score
-const EMAIL_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
+const EMAIL_REGEX = /^[a-zA-Z][a-zA-Z0-9-_@.]{3,23}$/;
 //One a small character and one capital character and one special character
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
@@ -68,14 +68,24 @@ function Register() {
       return;
     }
     try {
-      const response = await axios.post('/signup', JSON.stringify({}), {
-        headers: { 'Content-Type': 'application/json' },
-        withCredentials: true,
-      });
+      const response = await axios.post(
+        '/signup',
+        JSON.stringify({
+          name: 'Ruba',
+          email: email,
+          password: pwd,
+          pwdConfirm: matchPwd,
+        }),
+        {
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: true,
+        }
+      );
       console.log(JSON.stringify(response));
       setSuccess(true);
       // clear input field
     } catch (err) {
+      console.log(err);
       if (!err?.response) {
         setErrMsg('No Server Response');
       } else if (err.response?.status === 409) {
