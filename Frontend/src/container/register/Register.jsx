@@ -1,10 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Input from '../../components/Input';
 import './register.css';
+
 import axios from '../../api/axios';
 //=====Validate Input
 //It can Contain a-z , A-Z characters and 0-9 numbers, you can add hyphone and under score
 const EMAIL_REGEX = /^[a-zA-Z][a-zA-Z0-9-_@.]{3,23}$/;
+
+
+
 //One a small character and one capital character and one special character
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
@@ -59,6 +63,7 @@ function Register() {
   }, [success]);
 
   const handleSubmit = async (e) => {
+
     e.preventDefault();
     //if button enabled with JS hack
     const v1 = EMAIL_REGEX.test(email);
@@ -67,6 +72,7 @@ function Register() {
       setErrMsg('Invalid Entry');
       return;
     }
+
     try {
       const response = await axios.post(
         '/signup',
@@ -95,6 +101,8 @@ function Register() {
       }
       // errRef.current.focus();
     }
+
+
   };
 
   return (
