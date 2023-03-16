@@ -38,15 +38,15 @@ function Register() {
 
     const result = EMAIL_REGEX.test(email) && mailFormat.test(email);
 
-    console.log(email);
-    console.log(result);
+    // console.log(email);
+    // console.log(result);
     setValidEmail(result);
   }, [email]);
 
   useEffect(() => {
     const result = PWD_REGEX.test(pwd);
-    console.log(pwd);
-    console.log(result);
+    //  console.log(pwd);
+    // console.log(result);
     setValidPwd(result);
     const match = pwd === matchPwd;
     setValidMatch(match);
@@ -87,7 +87,7 @@ function Register() {
           withCredentials: true,
         }
       );
-      console.log(JSON.stringify(response));
+      // console.log(JSON.stringify(response));
       setSuccess(true);
       // clear input field
     } catch (err) {

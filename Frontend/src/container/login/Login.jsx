@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Input from '../../components/Input';
 import './login.css';
+import axios from '../../api/axios';
+import { Buffer } from 'buffer';
+
 const Login = () => {
   const emailRef = useRef();
   const errRef = useRef();
@@ -11,8 +14,41 @@ const Login = () => {
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    // emailRef.current.focus();
-  },[]);
+    emailRef.current.focus();
+  }, []);
+
+  useEffect(() => {}, [email, pwd]);
+
+  useEffect(() => {
+    // when the component is mounted, the alert is displayed for 3 seconds
+    setTimeout(() => {
+      setSuccess(false);
+    }, 3000);
+  }, [success]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const encodedBase64Token = Buffer.from(`${email}:${pwd}`).toString(
+        'base64'
+      );
+
+      const authorization = `Basic ${encodedBase64Token}`;
+      const response = await axios.get('/signin', {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: authorization,
+        },
+        withCredentials: true,
+      });
+      console.log(JSON.stringify(response));
+    } catch (error) {
+      console.log(error);
+    }
+    console.table({ email, pwd });
+    setSuccess(true);
+  };
 
   return (
     <>
@@ -29,11 +65,28 @@ const Login = () => {
             className='block  mb-4 text-center text-white font-bold text-4xl duration-500 scale-100'>
             Log in
           </label>
-          <form className='jwt__login-form  px-8 pt-6 pb-8 '>
-            <Input htmlFor='email' label='Email' placeholder='Email' />
-            <Input htmlFor='pwd' label='Password' placeholder='Password' />
+          <form
+            className='jwt__login-form  px-8 pt-6 pb-8 '
+            onSubmit={handleSubmit}>
+            <Input
+              htmlFor='email'
+              label='Email'
+              placeholder='Email'
+              onChangeFun={(e) => setEmail(e.target.value)}
+              refTo={emailRef}
+              type='text'
+            />
+            <Input
+              htmlFor='pwd'
+              label='Password'
+              placeholder='Password'
+              onChangeFun={(e) => setPwd(e.target.value)}
+              type='password'
+            />
             <div className='flex flex-col justify-between items-start '>
-              <button className='bg-blue-500  w-1/2 text-zinc-100 font-bold text-lg px-3 py-2 mb-2 cursor-pointer rounded hover:bg-blue-600'>
+              <button
+                type='submit'
+                className='bg-blue-500  w-1/2 text-zinc-100 font-bold text-lg px-3 py-2 mb-2 cursor-pointer rounded hover:bg-blue-600'>
                 Log in
               </button>
               <p className='flex items-center cursor-pointer mb-4 text-slate-50 hover:text-slate-300'>
