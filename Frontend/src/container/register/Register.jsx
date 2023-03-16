@@ -34,7 +34,10 @@ function Register() {
   }, []);
 
   useEffect(() => {
-    const result = EMAIL_REGEX.test(email);
+    let mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/;
+
+    const result = EMAIL_REGEX.test(email) && mailFormat.test(email);
+
     console.log(email);
     console.log(result);
     setValidEmail(result);
@@ -61,7 +64,6 @@ function Register() {
   }, [success]);
 
   const handleSubmit = async (e) => {
-
     e.preventDefault();
     //if button enabled with JS hack
     const v1 = EMAIL_REGEX.test(email);
@@ -99,7 +101,6 @@ function Register() {
       }
       // errRef.current.focus();
     }
-
   };
 
   return (
