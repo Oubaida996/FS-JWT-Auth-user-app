@@ -67,9 +67,24 @@ function Register() {
       setErrMsg('Invalid Entry');
       return;
     }
-
-
-    setSuccess(true);
+    try {
+      const response = await axios.post('/signup', JSON.stringify({}), {
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true,
+      });
+      console.log(JSON.stringify(response));
+      setSuccess(true);
+      // clear input field
+    } catch (err) {
+      if (!err?.response) {
+        setErrMsg('No Server Response');
+      } else if (err.response?.status === 409) {
+        setErrMsg('Email Taken');
+      } else {
+        setErrMsg('Registration Failed');
+      }
+      // errRef.current.focus();
+    }
   };
 
   return (
