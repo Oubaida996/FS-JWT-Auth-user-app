@@ -34,7 +34,7 @@ function Register() {
   }, []);
 
   useEffect(() => {
-    let mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/;
+    let mailFormat = /^\w+([-]?\w+)*@\w+([-]?\w+)*(\.\w{2,4})+$/;
 
     const result = EMAIL_REGEX.test(email) && mailFormat.test(email);
 
@@ -87,7 +87,7 @@ function Register() {
           withCredentials: true,
         }
       );
-      // console.log(JSON.stringify(response));
+      console.log(JSON.stringify(response));
       setSuccess(true);
       // clear input field
     } catch (err) {
