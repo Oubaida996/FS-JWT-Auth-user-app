@@ -17,10 +17,12 @@ const Login = () => {
     emailRef.current.focus();
   }, []);
 
-  useEffect(() => {}, [email, pwd]);
+  useEffect(() => {
+    setErrMsg('');
+  }, [email, pwd]);
 
   useEffect(() => {
-    // when the component is mounted, the alert is displayed for 3 seconds
+    // when the success state change to another value, the alert is displayed for 3 seconds
     setTimeout(() => {
       setSuccess(false);
     }, 3000);
@@ -43,8 +45,17 @@ const Login = () => {
         withCredentials: true,
       });
       console.log(JSON.stringify(response));
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      if (!err?.response) {
+        setErrMsg('No Server Response');
+      } else if (err.response?.status === 407) {
+        setErrMsg('Missing email or password');
+      } else if (err.response?.status === 400) {
+        setErrMsg(`You don't have authenticate`);
+      } else {
+        setErrMsg(`Login Failed`);
+      }
+      errRef.current.focus();
     }
     console.table({ email, pwd });
     setSuccess(true);
