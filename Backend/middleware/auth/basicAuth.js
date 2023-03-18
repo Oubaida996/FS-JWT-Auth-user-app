@@ -22,8 +22,10 @@ const basicAuth = async (req, res, next) => {
     }
   } else {
     next(
-      `You don't have authenticate, enter your email and password please`,
-      400
+      new ApiError(
+        `You don't have authenticate, enter your email and password please`,
+        400
+      )
     );
   }
 };
