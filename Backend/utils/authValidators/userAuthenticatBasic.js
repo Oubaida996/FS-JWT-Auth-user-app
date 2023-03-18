@@ -9,6 +9,8 @@ let userAuthenticatBasic = async (email, password, next) => {
   try {
     const user = await UserModel.findOne({ email: email });
     const valid = await bcrybt.compare(password, user.password);
+    console.log('valid', valid);
+
     if (valid) {
       let newToken = jwt.sign(
         { username: user.email, id: user._id },

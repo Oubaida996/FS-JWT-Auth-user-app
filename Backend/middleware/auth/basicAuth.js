@@ -6,7 +6,7 @@ const userAuthenticatBasic = require('../../utils/authValidators/userAuthenticat
 const basicAuth = async (req, res, next) => {
   if (req.headers['authorization']) {
     let basicHeaderParts = req.headers.authorization.split(' ');
-    // console.log('basicHeaderParts >>> ',basicHeaderParts);
+    console.log('basicHeaderParts >>> ',basicHeaderParts);
     let encodedPart = basicHeaderParts.pop(); //encoded(username:password);
     // console.log('encodedPart >>> ',encodedPart);
     let decoded = base64.decode(encodedPart); //username:password
@@ -23,7 +23,7 @@ const basicAuth = async (req, res, next) => {
   } else {
     next(
       new ApiError(
-        `You don't have authenticate, enter your email and password please`,
+        `You don't have authenticate,your email or password is incorrect`,
         400
       )
     );
