@@ -45,6 +45,8 @@ const Login = () => {
         withCredentials: true,
       });
       console.log(JSON.stringify(response));
+      console.table({ email, pwd });
+      setSuccess(true);
     } catch (err) {
       if (!err?.response) {
         setErrMsg('No Server Response');
@@ -57,8 +59,6 @@ const Login = () => {
       }
       errRef.current.focus();
     }
-    console.table({ email, pwd });
-    setSuccess(true);
   };
 
   return (
