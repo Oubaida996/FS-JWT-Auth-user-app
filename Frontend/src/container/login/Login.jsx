@@ -32,15 +32,17 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const encodedBase64Token = Buffer.from(`${email}:${pwd}`).toString(
+      const encodedBase64Token =await Buffer.from(`${email}:${pwd}`).toString(
         'base64'
       );
 
       const authorization = `Basic ${encodedBase64Token}`;
+      console.log(authorization, 'authorization');
       const response = await axios.get('/signin', {
         headers: {
           'Content-Type': 'application/json',
           Authorization: authorization,
+          preflightContinue: false,
         },
         withCredentials: true,
       });
@@ -48,6 +50,7 @@ const Login = () => {
       console.table({ email, pwd });
       setSuccess(true);
     } catch (err) {
+      console.log(err);
       if (!err?.response) {
         setErrMsg('No Server Response');
       } else if (err.response?.status === 407) {
