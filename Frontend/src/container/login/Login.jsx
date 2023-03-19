@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Input from '../../components/Input';
 import './login.css';
-import axios from '../../api/axios';
-import { Buffer } from 'buffer';
+import AxiosInstance from '../../api/AxiosInstance';
+import base64 from 'base-64';
 
 const Login = () => {
   const emailRef = useRef();
@@ -28,26 +28,28 @@ const Login = () => {
     }, 3000);
   }, [success]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    try {
-      const encodedBase64Token =await Buffer.from(`${email}:${pwd}`).toString(
-        'base64'
-      );
+    const encodedBase64Token = base64.encode(`${email}:${pwd}`);
 
-      const authorization = `Basic ${encodedBase64Token}`;
-      console.log(authorization, 'authorization');
-      const response = await axios.get('/signin', {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: authorization,
-          preflightContinue: false,
-        },
-        withCredentials: true,
-      });
-      console.log(JSON.stringify(response));
-      console.table({ email, pwd });
+    const authorization = `Basic ${encodedBase64Token}`;
+    try {
+
+      AxiosInstance.post(
+        '/signin',
+        {},
+        {
+          headers: {
+            Authorization: authorization,
+          },
+          withCredentials: true,
+        }
+      ).then((e) => console.log(1111111111, e));
+
+      setEmail('');
+      setPwd('');
+
       setSuccess(true);
     } catch (err) {
       console.log(err);
