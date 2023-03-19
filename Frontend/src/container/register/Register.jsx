@@ -34,7 +34,9 @@ function Register() {
   }, []);
 
   useEffect(() => {
+
     let mailFormat = /^\w+([-]?\w+)*@\w+([-]?\w+)*(\w{2,4})+$/;
+
 
     const result = EMAIL_REGEX.test(email) && mailFormat.test(email);
 

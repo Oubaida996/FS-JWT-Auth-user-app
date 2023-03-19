@@ -35,6 +35,7 @@ const Login = () => {
 
     const authorization = `Basic ${encodedBase64Token}`;
     try {
+
       AxiosInstance.post(
         '/signin',
         {},
@@ -48,8 +49,10 @@ const Login = () => {
 
       setEmail('');
       setPwd('');
+
       setSuccess(true);
     } catch (err) {
+      console.log(err);
       if (!err?.response) {
         setErrMsg('No Server Response');
       } else if (err.response?.status === 407) {
