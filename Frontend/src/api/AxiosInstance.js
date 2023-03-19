@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 
-const baseURL = 'http://localhost:3000/api/v1/auth';
+const baseURL = 'http://localhost:3000/api/v1/account';
 
 // Create a new axios instance
 const AxiosInstance = axios.create({
@@ -11,6 +11,7 @@ const AxiosInstance = axios.create({
     'Content-Type': 'application/json',
     accept: 'application/json',
   },
+  withCredentials: true,
 });
 
 // Axios Interceptors => https://axios-http.com/docs/interceptors
