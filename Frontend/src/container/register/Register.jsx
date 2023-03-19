@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Input from '../../components/Input';
 import './register.css';
 
-import axios from '../../api/axios';
+import axios from '../../api/AxiosInstance';
 //=====Validate Input
 //It can Contain a-z , A-Z characters and 0-9 numbers, you can add hyphone and under score
 const EMAIL_REGEX = /^[a-zA-Z][a-zA-Z0-9-_@.]{3,23}$/;
@@ -34,7 +34,7 @@ function Register() {
   }, []);
 
   useEffect(() => {
-    let mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/;
+    let mailFormat = /^\w+([-]?\w+)*@\w+([-]?\w+)*(\w{2,4})+$/;
 
     const result = EMAIL_REGEX.test(email) && mailFormat.test(email);
 
@@ -87,7 +87,7 @@ function Register() {
           withCredentials: true,
         }
       );
-      // console.log(JSON.stringify(response));
+      console.log(JSON.stringify(response));
       setSuccess(true);
       // clear input field
     } catch (err) {
