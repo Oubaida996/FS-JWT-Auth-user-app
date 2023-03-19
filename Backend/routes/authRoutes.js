@@ -9,6 +9,7 @@ const { signupAuthValidator } = require( '../utils/authValidators/signupAuthVali
 
 router.post('/signup', signupAuthValidator ,signup);
 
-router.get('/signin', basicAuth, signin);
+router.post('/signin', basicAuth, signin);
+
 
 module.exports = router;

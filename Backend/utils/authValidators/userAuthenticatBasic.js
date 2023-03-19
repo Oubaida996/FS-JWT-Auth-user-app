@@ -16,10 +16,11 @@ let userAuthenticatBasic = async (email, password, next) => {
       );
       return newToken;
     } else {
-      // throw new Error('The password is incorrect >> valid');
+      console.log('Hiiiiiii');
       next(
         new ApiError('The password is incorrect >> userAuthenticatBasic', 407)
       );
+      console.log('Byeeeeeeeeeeeeee');
     }
   } catch (error) {
     // throw new Error('The user is not exist >> userAuthenticatBasic');

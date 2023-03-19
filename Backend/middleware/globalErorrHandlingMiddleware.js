@@ -12,6 +12,7 @@ const globalErorrHandlingMidleware = (err, req, res, next) => {
 
 // @desc Handle error while Development mode
 const sendErrorForDev = (err, res) => {
+  console.log('Mshan Allah',res,err );
   return res.status(err.statusCode).json({
     status: err.status,
     erorr: err,
