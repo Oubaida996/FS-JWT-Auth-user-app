@@ -8,7 +8,7 @@ const ApiError = require('../utils/ApiError');
 // @route   Post /api/v1/auth
 // @access  Public
 exports.login = asyncHandler(async (req, res, next) => {
-  console.log(req.user);
+  // console.log('user',req.user);
   res.status(200).json({
     token: req.token,
   });

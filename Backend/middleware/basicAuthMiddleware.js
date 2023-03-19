@@ -18,6 +18,7 @@ const basicAuth = async(req, res, next) => {
             const user = await validateUser(email, password);
             if (user) {
                 req.token = generateToken(user.email, user._id);
+                req.user= user;
                 next();
             } else {
                 next(
