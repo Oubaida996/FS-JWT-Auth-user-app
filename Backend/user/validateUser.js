@@ -2,7 +2,7 @@ const UserModel = require('../models/userModel');
 const bcrybt = require('bcryptjs');
 const ApiError = require('../utils/ApiError');
 
-const validateUser = async (email, pwd, id = null) => {
+const validateUser = async ({email=null, pwd=null, id = null}) => {
   try {
     const objFilter = id ? { _id: id } : { email: email };
     const user = await UserModel.findOne(objFilter);

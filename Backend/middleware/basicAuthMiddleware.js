@@ -15,7 +15,7 @@ const basicAuth = async(req, res, next) => {
         let [email, password] = decoded.split(':'); //[username:password]
 
         try {
-            const user = await validateUser(email, password);
+            const user = await validateUser({email,pwd:password});
             if (user) {
                 req.token = generateToken(user.email, user._id);
                 req.user= user;
