@@ -36,7 +36,7 @@ const Login = () => {
     const authorization = `Basic ${encodedBase64Token}`;
     try {
       AxiosInstance.post(
-        '/signin',
+        '/login',
         {},
         {
           headers: {
