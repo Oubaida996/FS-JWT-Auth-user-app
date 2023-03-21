@@ -28,36 +28,32 @@ const Login = () => {
     }, 3000);
   }, [success]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const encodedBase64Token = base64.encode(`${email}:${pwd}`);
-
-    const authorization = `Basic ${encodedBase64Token}`;
     try {
+      const encodedBase64Token = base64.encode(`${email}:${pwd}`);
+      const authorization = `Basic ${encodedBase64Token}`;
 
-      AxiosInstance.post(
+      await AxiosInstance.post(
         '/login',
         {},
         {
           headers: {
             Authorization: authorization,
           },
-          withCredentials: true,
         }
-      ).then((e) => console.log(1111111111, e));
+      );
 
       setEmail('');
       setPwd('');
-
       setSuccess(true);
     } catch (err) {
-      console.log(err);
       if (!err?.response) {
         setErrMsg('No Server Response');
-      } else if (err.response?.status === 407) {
-        setErrMsg('Missing email or password');
-      } else if (err.response?.status === 400) {
+      } else if (err.response.data?.message) {
+        setErrMsg(err.response.data?.message);
+      } else if (err.response?.status === 401) {
         setErrMsg(`You don't have authenticate`);
       } else {
         setErrMsg(`Login Failed`);
@@ -112,7 +108,7 @@ const Login = () => {
             {/* If the email and pwd are invalid */}
             <p
               ref={errRef}
-              className={errMsg ? 'errmsg' : 'offscreen'}
+              className={errMsg ? 'errmsg max-w-[200px] text-sm' : 'offscreen'}
               aria-live='assertive'>
               {errMsg}
             </p>

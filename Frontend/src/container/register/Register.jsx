@@ -2,10 +2,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import Input from '../../components/Input';
 import './register.css';
 
-import axios from '../../api/AxiosInstance';
+import AxiosInstance from '../../api/AxiosInstance';
 //=====Validate Input
 //It can Contain a-z , A-Z characters and 0-9 numbers, you can add hyphone and under score
-const EMAIL_REGEX = /^[a-zA-Z][a-zA-Z0-9-_@.]{3,23}$/;
+const EMAIL_REGEX = /^[a-zA-Z][a-zA-Z0-9-_@.]{3,64}$/;
+const EMAIL_REGEX_FORMAT =
+  /^[a-zA-Z]+([-.]?\w+)*@[\w]+([-.]?[a-zA-Z]+)*([a-z]{1,4}).{3,64}$/;
 
 //One a small character and one capital character and one special character
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -34,11 +36,7 @@ function Register() {
   }, []);
 
   useEffect(() => {
-
-    let mailFormat = /^\w+([-]?\w+)*@\w+([-]?\w+)*(\w{2,4})+$/;
-
-
-    const result = EMAIL_REGEX.test(email) && mailFormat.test(email);
+    const result = EMAIL_REGEX.test(email) && EMAIL_REGEX_FORMAT.test(email);
 
     // console.log(email);
     // console.log(result);
@@ -76,7 +74,7 @@ function Register() {
     }
 
     try {
-      const response = await axios.post(
+      const response = await AxiosInstance.post(
         '/signup',
         JSON.stringify({
           name: 'Ruba',
@@ -96,12 +94,12 @@ function Register() {
       console.log(err);
       if (!err?.response) {
         setErrMsg('No Server Response');
-      } else if (err.response?.status === 409) {
+      } else if (err.response?.status === 400) {
         setErrMsg('Email Taken');
       } else {
         setErrMsg('Registration Failed');
       }
-      // errRef.current.focus();
+      errRef.current.focus();
     }
   };
 
