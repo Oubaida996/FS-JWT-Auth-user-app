@@ -2,9 +2,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import Input from '../../components/Input';
 import './register.css';
 
+import AxiosInstance from '../../api/AxiosInstance';
 //=====Validate Input
 //It can Contain a-z , A-Z characters and 0-9 numbers, you can add hyphone and under score
-const EMAIL_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
+const EMAIL_REGEX = /^[a-zA-Z][a-zA-Z0-9-_@.]{3,64}$/;
+const EMAIL_REGEX_FORMAT =
+  /^[a-zA-Z]+([-.]?\w+)*@[\w]+([-.]?[a-zA-Z]+)*([a-z]{1,4}).{3,64}$/;
+
 //One a small character and one capital character and one special character
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
@@ -32,16 +36,17 @@ function Register() {
   }, []);
 
   useEffect(() => {
-    const result = EMAIL_REGEX.test(email);
-    console.log(email);
-    console.log(result);
+    const result = EMAIL_REGEX.test(email) && EMAIL_REGEX_FORMAT.test(email);
+
+    // console.log(email);
+    // console.log(result);
     setValidEmail(result);
   }, [email]);
 
   useEffect(() => {
     const result = PWD_REGEX.test(pwd);
-    console.log(pwd);
-    console.log(result);
+    //  console.log(pwd);
+    // console.log(result);
     setValidPwd(result);
     const match = pwd === matchPwd;
     setValidMatch(match);
@@ -58,7 +63,7 @@ function Register() {
     }, 3000);
   }, [success]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     //if button enabled with JS hack
     const v1 = EMAIL_REGEX.test(email);
@@ -67,7 +72,35 @@ function Register() {
       setErrMsg('Invalid Entry');
       return;
     }
-    setSuccess(true);
+
+    try {
+      const response = await AxiosInstance.post(
+        '/signup',
+        JSON.stringify({
+          name: 'Ruba',
+          email: email,
+          password: pwd,
+          pwdConfirm: matchPwd,
+        }),
+        {
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: true,
+        }
+      );
+      console.log(JSON.stringify(response));
+      setSuccess(true);
+      // clear input field
+    } catch (err) {
+      console.log(err);
+      if (!err?.response) {
+        setErrMsg('No Server Response');
+      } else if (err.response?.status === 400) {
+        setErrMsg('Email Taken');
+      } else {
+        setErrMsg('Registration Failed');
+      }
+      errRef.current.focus();
+    }
   };
 
   return (

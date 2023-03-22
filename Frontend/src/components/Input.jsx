@@ -6,6 +6,7 @@ import {
   faInfoCircle,
 } from '@fortawesome/free-solid-svg-icons';
 export default function Input({
+  type,
   htmlFor,
   label,
   placeholder,
@@ -22,7 +23,7 @@ export default function Input({
 }) {
   const [stateOfBorder, setStateOfBorder] = useState('');
   useEffect(() => {
-    console.table({ valid, value });
+    // console.table({ valid, value });
     if (!valid && !value) {
       setStateOfBorder('');
     } else if (valid && value) {

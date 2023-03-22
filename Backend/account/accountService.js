@@ -7,8 +7,8 @@ const ApiError = require('../utils/ApiError');
 // @desc    Sign in
 // @route   Post /api/v1/auth
 // @access  Public
-exports.signin = asyncHandler(async (req, res, next) => {
-  console.log(req.user);
+exports.login = asyncHandler(async (req, res, next) => {
+  // console.log('user',req.user);
   res.status(200).json({
     token: req.token,
   });

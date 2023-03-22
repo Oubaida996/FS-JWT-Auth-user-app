@@ -1,9 +1,9 @@
 'use strict';
 //check means any type {param ,body ,...}
 const { check, body, param } = require('express-validator');
-const validatorMiddleware = require('../../middleware/validatorMiddleware');
+const validatorMiddleware = require('../middleware/validatorMiddleware');
 const slugify = require('slugify');
-const User = require('../../models/userModel');
+const User = require('../models/userModel');
 const bcrybt = require('bcryptjs');
 exports.createUserValidator = [
   //1-Rules
