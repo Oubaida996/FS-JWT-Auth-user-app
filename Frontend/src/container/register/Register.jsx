@@ -104,7 +104,7 @@ function Register() {
   };
 
   return (
-    <div className='jwt__register  w-full flex flex-col bg-slate-50 rounded rounded-t-3xl  absolute top-0 left-0 bottom-0 translate-y-[89%] transition ease-in-out duration-500  peer-checked/chk:translate-y-[0%] peer-checked/chk:rounded '>
+    <div className='jwt__register  w-full flex flex-col bg-slate-50 rounded rounded-t-3xl  absolute top-0 left-0 bottom-0 translate-y-[89%] transition ease-in-out duration-500  peer-checked/chk:translate-y-[10%] '>
       <label
         htmlFor='chk'
         className='block mb-4 text-center font-bold text-blue-400 text-4xl duration-500 scale-50 '>
