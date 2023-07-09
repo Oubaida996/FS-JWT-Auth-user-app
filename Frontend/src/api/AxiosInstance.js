@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 
-const baseURL = 'http://localhost:3000/api/v1/account';
+const baseURL = `${process.env.REACT_APP_BACKEND_URL}/api/v1/account`;
 
 // Create a new axios instance
 const AxiosInstance = axios.create({
