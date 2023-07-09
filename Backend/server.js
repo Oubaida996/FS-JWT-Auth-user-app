@@ -28,12 +28,10 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 //===== CORS
-
 const urls =
   process.env.NODE_ENV === 'development'
-    ? process.env.DEV_FFRONTEND_URL
-    : process.env.PRO_FFRONTEND_URL;
-
+    ? process.env.DEV_FRONTEND_URL
+    : process.env.PRO_FRONTEND_URL;
 const whitelist = [urls];
 const corsOptions = {
   origin: function (origin, callback) {
