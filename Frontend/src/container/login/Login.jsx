@@ -4,7 +4,7 @@ import './login.css';
 import AxiosInstance from '../../api/AxiosInstance';
 import base64 from 'base-64';
 
-const Login = () => {
+const Login = ({ setLoading }) => {
   const emailRef = useRef();
   const errRef = useRef();
 
@@ -30,7 +30,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     try {
       const encodedBase64Token = base64.encode(`${email}:${pwd}`);
       const authorization = `Basic ${encodedBase64Token}`;
@@ -48,6 +48,7 @@ const Login = () => {
       setEmail('');
       setPwd('');
       setSuccess(true);
+      setLoading(false);
     } catch (err) {
       if (!err?.response) {
         setErrMsg('No Server Response');
@@ -59,6 +60,7 @@ const Login = () => {
         setErrMsg(`Login Failed`);
       }
       errRef.current.focus();
+      setLoading(false);
     }
   };
 
