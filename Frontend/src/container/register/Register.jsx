@@ -77,7 +77,7 @@ function Register() {
       const response = await AxiosInstance.post(
         '/signup',
         JSON.stringify({
-          name: 'Ruba',
+          name: email.slice(0, email.indexOf('@')),
           email: email,
           password: pwd,
           pwdConfirm: matchPwd,
